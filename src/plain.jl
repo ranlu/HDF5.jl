@@ -831,6 +831,7 @@ end
         error("Properties and values must come in pairs")
     end
     p = p_create(H5P_DATASET_CREATE)
+    h5p_set_obj_track_times(p.id,false)
     p[prop1] = val1
     for i = 1:2:length(pv)
         thisname = pv[i]
@@ -1982,6 +1983,7 @@ for (jlname, h5name, outtype, argtypes, argsyms, msg) in
      (:h5p_get_fclose_degree, :H5Pget_fclose_degree, Herr, (Hid, Ptr{Cint}), (:plist_id, :fc_degree), "Error getting close degree"),
      (:h5p_get_userblock, :H5Pget_userblock, Herr, (Hid, Ptr{Hsize}), (:plist_id, :len), "Error getting userblock"),
      (:h5p_set_char_encoding, :H5Pset_char_encoding, Herr, (Hid, Cint), (:plist_id, :encoding), "Error setting char encoding"),
+     (:h5p_set_obj_track_times, :H5Pset_obj_track_times, Herr, (Hid, Htri), (:plist_id, :setting), "Error setting track times"),
      (:h5p_set_chunk, :H5Pset_chunk, Herr, (Hid, Cint, Ptr{Hsize}), (:plist_id, :ndims, :dims), "Error setting chunk size"),
      (:h5p_set_create_intermediate_group, :H5Pset_create_intermediate_group, Herr, (Hid, Cuint), (:plist_id, :setting), "Error setting create intermediate group"),
      (:h5p_set_external, :H5Pset_external, Herr, (Hid, Ptr{UInt8}, Int, Csize_t), (:plist_id, :name, :offset, :size), "Error setting external property"),
