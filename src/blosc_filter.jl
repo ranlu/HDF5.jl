@@ -91,6 +91,8 @@ function blosc_filter(flags::Cuint, cd_nelmts::Csize_t,
         outbuf_size = unsafe_load(buf_size)
         outbuf = Libc.malloc(outbuf_size)
         outbuf == C_NULL && return convert(Csize_t, 0)
+        Blosc.set_compressor("zlib")
+        Blosc.set_num_threads(div(CPU_CORES,2))
         status = Blosc.blosc_compress(clevel, doshuffle, typesize, nbytes,
                                       unsafe_load(buf), outbuf, nbytes)
         status < 0 && (Libc.free(outbuf); return convert(Csize_t, 0))
@@ -104,6 +106,7 @@ function blosc_filter(flags::Cuint, cd_nelmts::Csize_t,
         outbuf_size, cbytes, blocksize = Blosc.cbuffer_sizes(unsafe_load(buf))
         outbuf = Libc.malloc(outbuf_size)
         outbuf == C_NULL && return convert(Csize_t, 0)
+        Blosc.set_num_threads(div(CPU_CORES,2))
         status = Blosc.blosc_decompress(unsafe_load(buf), outbuf, outbuf_size)
         status <= 0 && (Libc.free(outbuf); return convert(Csize_t, 0))
     end
